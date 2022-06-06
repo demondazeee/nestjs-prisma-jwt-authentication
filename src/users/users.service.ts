@@ -1,4 +1,4 @@
-import { Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma.service';
 
@@ -10,19 +10,13 @@ export class UsersService {
     // Get All Users
     async getUsers(){
         try {
-            const users = await this.prisma.users.findMany({
-                select: {
-                    id: true,
-                    username: true,
-                    password: false
-                }
-            })
+            const users = await this.prisma.users.findMany()
             
-            if(users){
+            if (users){
                 return users
             }
         } catch(e){
-            throw new InternalServerErrorException('Error')
+            throw new InternalServerErrorException(e)
         }
     }
 
@@ -38,13 +32,14 @@ export class UsersService {
     // Create User
     async createUser(data: Prisma.UsersCreateInput){
         try {
-            const user = this.prisma.users.create({
+            const user = await this.prisma.users.create({
                 data
             })
 
+            console.log(user)
             return user
         } catch(e){
-            throw new InternalServerErrorException(e)
+            throw new ConflictException('Existing Username')
         }
     }
 

@@ -7,7 +7,7 @@ import { AuthGuard } from './guards/auth.guard';
 import { TransformInterceptor } from './interceptor/user-info.interceptor';
 
 @Controller('auth')
-//@UseInterceptors(TransformInterceptor)
+@UseInterceptors(TransformInterceptor)
 export class AuthController {
 
     constructor (

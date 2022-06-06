@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Response, Request } from 'express';
 import { UsersService } from '../users/users.service';
@@ -44,14 +44,14 @@ export class AuthService {
     // To Register user
     async signUp(res: Response, authData: AuthCredentialsDto){
         const {password} = authData
-        authData.password = await this.password_encrypt(password)
-        const user = await this.usersService.createUser(authData)
-        const token = await this.jwt_token(res, user.id)
-        
-        return {
-            ...user,
-            token
-        }
+            authData.password = await this.password_encrypt(password)
+            const user = await this.usersService.createUser(authData)
+            const token = await this.jwt_token(res, user.id)
+
+            return {
+                ...user,
+                token
+            }
     }
 
     // To Logout User
