@@ -14,10 +14,6 @@ export class AuthService {
         private jwtService: JwtService
         ) {}
 
-    // To Fetch All users from the DB, for connection testing
-    async getUsers() {
-        return await this.usersService.getUsers()
-    }
 
     // To Log in user
     async signIn(res: Response, authData: AuthCredentialsDto){
@@ -44,9 +40,9 @@ export class AuthService {
     // To Register user
     async signUp(res: Response, authData: AuthCredentialsDto){
         const {password} = authData
-            authData.password = await this.password_encrypt(password)
-            const user = await this.usersService.createUser(authData)
-            const token = await this.jwt_token(res, user.id)
+        authData.password = await this.password_encrypt(password)
+        const user = await this.usersService.createUser(authData)
+        const token = await this.jwt_token(res, user.id)
 
             return {
                 ...user,

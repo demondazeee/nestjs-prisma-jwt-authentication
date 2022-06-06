@@ -14,13 +14,6 @@ export class AuthController {
         private authService: AuthService
     ) {}
 
-    // For Testing: GET '/' to Fetch All users from the DB, for connection testing
-    @Get('/')
-    @HttpCode(200)
-    async getUsers(){
-        return this.authService.getUsers()
-    }
-
     // For Testing: GET '/info' to Fetch the current logged in user
     // Requirements: Need to have a Bearer Token from request header
     @UseGuards(AuthGuard)
