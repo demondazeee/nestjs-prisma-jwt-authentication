@@ -10,11 +10,19 @@ export class UsersService {
     // Get All Users
     async getUsers(){
         try {
-            const users = await this.prisma.users.findMany()
+            const users = await this.prisma.users.findMany({
+                select: {
+                    id: true,
+                    username: true,
+                    password: false
+                }
+            })
             
-            return users
+            if(users){
+                return users
+            }
         } catch(e){
-            throw new InternalServerErrorException()
+            throw new InternalServerErrorException('Error')
         }
     }
 

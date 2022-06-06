@@ -12,9 +12,24 @@ describe('UsersService', () => {
     }).compile();
 
     service = module.get<UsersService>(UsersService);
+    prisma = module.get<PrismaService>(PrismaService)
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
+ describe('Get Users', () =>{
+  it('should call db', async ()=>{
+    const users = [{
+      username: 'testing',
+      password: 'testing'
+    },
+    {
+      username: 'testing2',
+      password: 'testing2'
+    }]
+
+    const mock = jest.spyOn(prisma.users, 'findMany')
+    await service.getUsers()
+
+    expect(mock).toBeCalled()
+  })
+ })
 });
